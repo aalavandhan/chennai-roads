@@ -1,7 +1,6 @@
 module ChennaiRoads
   class Application
 		def call(env)
-
 			begin
 				klass, act = get_controller_and_action(env)
 				controller = klass.new(env)
@@ -11,14 +10,13 @@ module ChennaiRoads
 			rescue Exception => e
 				Logger.new(e).log
 			end
-
 		end
 
 
 		def get_controller_and_action(env)
-			_, cont, action, after = env["PATH_INFO"].split('/', 4)
+			return [Object.const_get("HomeController"), "index"] if env["PATH_INFO"] == "/"
 
-			return [HomeController, :index] if _ == "/"
+			_, cont, action, after = env["PATH_INFO"].split('/', 4)
 
 			cont = cont.capitalize
 			cont += "Controller"
