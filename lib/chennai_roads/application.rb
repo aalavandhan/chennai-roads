@@ -35,20 +35,4 @@ module ChennaiRoads
 			@env
 		end
 	end
-
-	class Logger
-		def initialize(exception, log_file='debug.txt')
-			@e = exception
-			@log_file = log_file
-		end
-
-		def log
-			open(@log_file, 'a') { |f| 
-				f << @e.message 
-				f << @e.backtrace.join("\n")
-				3.times { f << "\n" }
-			}
-		end
-	end
-
 end
