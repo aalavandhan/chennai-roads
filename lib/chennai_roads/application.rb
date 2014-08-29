@@ -25,7 +25,6 @@ module ChennaiRoads
 		end
 	end
 
-
 	class Controller
 		def initialize(env)
 			@env = env
