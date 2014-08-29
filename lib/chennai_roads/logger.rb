@@ -7,7 +7,7 @@ module ChennaiRoads
 
 		def log
 			open(@log_file, 'a') { |f| 
-				log_exception!
+				log_exception!(f)
 				3.times { f << "\n" }
 			}
 		end
@@ -20,7 +20,7 @@ module ChennaiRoads
 		def log_exception!(file)
 			if exception_message? 
 				file << @e
-			else log_exception(f)
+			else
 				file << @e.message 
 				file << @e.backtrace.join("\n")
 			end
