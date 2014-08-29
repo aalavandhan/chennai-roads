@@ -1,6 +1,6 @@
 module ChennaiRoads
 	class Logger
-		def initialize(exception, log_file='debug.txt')
+		def initialize(exception, log_file='log/exception.log')
 			@e = exception
 			@log_file = log_file
 		end
