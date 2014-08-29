@@ -1,3 +1,9 @@
+require "chennai_roads/version"
+
+require "chennai_roads/logger"
+require "chennai_roads/util"
+require "const_missing"
+
 module ChennaiRoads
   class Application
 		def call(env)

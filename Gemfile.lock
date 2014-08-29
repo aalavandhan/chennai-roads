@@ -1,3 +1,10 @@
+PATH
+  remote: lib/chennai_roads
+  specs:
+    chennai_roads (0.0.1)
+      erubis
+      rack
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -24,7 +31,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  chennai_roads!
   debugger
-  erubis
-  rack
   rspec
