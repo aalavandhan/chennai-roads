@@ -2,7 +2,8 @@ require "chennai_roads/version"
 
 require "chennai_roads/logger"
 require "chennai_roads/util"
-require "const_missing"
+require "chennai_roads/routing"
+require "chennai_roads/dependencies"
 
 module ChennaiRoads
   class Application
