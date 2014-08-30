@@ -5,6 +5,8 @@ require "chennai_roads/util"
 require "chennai_roads/routing"
 require "chennai_roads/dependencies"
 
+require "chennai_roads/file_model"
+
 module ChennaiRoads
   class Application
 		def call(env)

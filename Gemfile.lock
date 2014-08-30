@@ -3,6 +3,8 @@ PATH
   specs:
     chennai_roads (0.0.1)
       erubis
+      json
+      multi_json
       rack
 
 GEM
@@ -17,6 +19,8 @@ GEM
     debugger-ruby_core_source (1.3.5)
     diff-lcs (1.2.5)
     erubis (2.7.0)
+    json (1.8.1)
+    multi_json (1.10.1)
     rack (1.5.2)
     rspec (2.13.0)
       rspec-core (~> 2.13.0)
