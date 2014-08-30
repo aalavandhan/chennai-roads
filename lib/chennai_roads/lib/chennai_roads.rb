@@ -19,7 +19,13 @@ module ChennaiRoads
 				controller = klass.new(env)
 				text = controller.send(act)
 
-				[200, {'Content-Type' => 'text/html'}, [ text ]]
+				if controller.get_response
+					st, hd, rs = controller.get_response.to_a
+					[st, hd, [rs.body].flatten]
+				else
+					[200, {'Content-Type' => 'text/html'}, [text]]
+				end
+
 			rescue Exception => e
 				Logger.new(e).log
 			end
@@ -35,16 +41,48 @@ module ChennaiRoads
 			@env
 		end
 
+		def request
+		  @request ||= Rack::Request.new(@env)
+		end
+
+		def params
+			request.params
+		end
+
+		def get_response
+			@response
+		end
+
+		def render_response(*args)
+			response(render(*args))
+		end
+	private
+		def controller
+			ChennaiRoads.to_underscore(self.class.to_s).gsub(/_controller/, "")
+		end
+
+		def response(text, status = 200, headers = {})
+			raise "Already responded!" if @response
+	    a = [text].flatten
+	    @response = Rack::Response.new(a, status, headers)
+		end
+
 		def render(view_name, locals = {})
       filename = File.join "app", "views", controller, "#{view_name}.html.erb"
       template = File.read filename
       eruby = Erubis::Eruby.new(template)
-      eruby.result locals.merge(:env => @env)
+      eruby.result(context_data(locals))
 		end
 
-	private
-		def controller
-			ChennaiRoads.to_underscore(self.class.to_s).gsub(/_controller/, "")
+
+		def context_data(locals)
+			locals
+				.merge(:env => @env)
+				.merge(serialize_instance_variables)
+		end
+
+		def serialize_instance_variables
+			instance_variables.inject({}){ |h, v| h.merge(v => instance_variable_get(v) ) }
 		end
 	end
 end

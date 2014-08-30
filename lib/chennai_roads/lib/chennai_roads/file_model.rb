@@ -8,8 +8,7 @@ module ChennaiRoads
         @filename = filename
         basename = File.split(filename)[-1]
         @id = File.basename(basename, ".json").to_i
-        obj = File.read(filename)
-        @hash = MultiJson.load(obj)
+        load_data!
       end
 
       def [](name)
@@ -24,7 +23,11 @@ module ChennaiRoads
         File.open("db/quotes/#{@id}.json", "w") do |f|
           f.write(attrs.to_json)
         end
-        self
+        load_data!
+      end
+
+      def delete
+        File.delete("db/quotes/#{@id}.json")
       end
 
       def self.find(id)
@@ -52,6 +55,11 @@ module ChennaiRoads
           f.write(quote_data.to_json)
         end
         FileModel.new "db/quotes/#{id}.json"
+      end
+    private
+      def load_data!
+        obj = File.read(@filename)
+        @hash = MultiJson.load(obj)
       end
     end
   end

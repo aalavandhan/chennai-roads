@@ -2,33 +2,41 @@ class QuotesController < ChennaiRoads::Controller
 
 	def index
 		@quotes = ChennaiRoads::Model::FileModel.all
-		render :index, :quotes => @quotes
+		render_response :index
 	end
 
-	def a_quote
-		render :a_quote, :noun => :winking
+	def new
+		@quote = ChennaiRoads::Model::FileModel.create(quote_params)
+	  render_response :quote
 	end
 
-	def quote
-		@quote = ChennaiRoads::Model::FileModel.find(1)
-		render :quote, :quote => @quote
+	def show
+		load_quote
+		render_response :quote
 	end
 
-	def new_quote
-	  attrs = {
-	    "submitter" => "web user",
-	    "quote" => "A picture is worth one k pixels",
-	    "attribution" => "Me"
-	  }
-	  render :quote, :quote => ChennaiRoads::Model::FileModel.create(attrs)
+	def update
+		load_quote
+		@quote.update(quote_params)
+	  render_response :quote
 	end
 
-	def update_quote
-		attrs = {
-	    "submitter" => "a new web user",
-	    "quote" => "A picture is worth one k pixels",
-	    "attribution" => "Me"
-	  }
-	  render :quote, :quote => ChennaiRoads::Model::FileModel.find(2).update(attrs)
+	def delete
+		load_quote
+		@quote.delete
+	  render_response :quote
+	end
+
+private
+	def load_quote
+		@quote = ChennaiRoads::Model::FileModel.find(params["id"])
+	end
+
+	def quote_params
+		{
+		  "submitter" =>  params["submitter"],
+		  "quote" =>  params["quote"],
+		  "attribution" =>  params["attribution"]
+		}
 	end
 end
