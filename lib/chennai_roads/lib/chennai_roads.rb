@@ -17,6 +17,9 @@ module ChennaiRoads
 			begin
 				klass, act = get_controller_and_action(env)
 				controller = klass.new(env)
+
+				controller.execute_before_filters
+
 				text = controller.send(act)
 
 				if controller.get_response
@@ -56,6 +59,10 @@ module ChennaiRoads
 		def render_response(*args)
 			response(render(*args))
 		end
+
+		def execute_before_filters
+			self.class.get_before_filters.each{ |m| self.send(m) }
+		end
 	private
 		def controller
 			ChennaiRoads.to_underscore(self.class.to_s).gsub(/_controller/, "")
@@ -74,7 +81,6 @@ module ChennaiRoads
       eruby.result(context_data(locals))
 		end
 
-
 		def context_data(locals)
 			locals
 				.merge(:env => @env)
@@ -83,6 +89,15 @@ module ChennaiRoads
 
 		def serialize_instance_variables
 			instance_variables.inject({}){ |h, v| h.merge(v => instance_variable_get(v) ) }
+		end
+
+		def self.before_filter(method)
+			@before_filters ||= []
+			@before_filters << method unless @before_filters.include?(method)
+		end
+
+		def self.get_before_filters
+			@before_filters
 		end
 	end
 end

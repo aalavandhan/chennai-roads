@@ -1,5 +1,7 @@
 class QuotesController < ChennaiRoads::Controller
 
+	before_filter :load_quote
+
 	def index
 		@quotes = ChennaiRoads::Model::FileModel.all
 		render_response :index
@@ -11,18 +13,15 @@ class QuotesController < ChennaiRoads::Controller
 	end
 
 	def show
-		load_quote
 		render_response :quote
 	end
 
 	def update
-		load_quote
 		@quote.update(quote_params)
 	  render_response :quote
 	end
 
 	def delete
-		load_quote
 		@quote.delete
 	  render_response :quote
 	end

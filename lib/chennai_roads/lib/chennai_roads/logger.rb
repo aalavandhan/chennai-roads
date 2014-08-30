@@ -23,6 +23,9 @@ module ChennaiRoads
 			else
 				file << @e.message 
 				file << @e.backtrace.join("\n")
+
+				puts @e.message
+				puts @e.backtrace.join("\n")
 			end
 		end
 	end
