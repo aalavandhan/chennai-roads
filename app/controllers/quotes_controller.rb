@@ -22,4 +22,13 @@ class QuotesController < ChennaiRoads::Controller
 	  }
 	  render :quote, :quote => ChennaiRoads::Model::FileModel.create(attrs)
 	end
+
+	def update_quote
+		attrs = {
+	    "submitter" => "a new web user",
+	    "quote" => "A picture is worth one k pixels",
+	    "attribution" => "Me"
+	  }
+	  render :quote, :quote => ChennaiRoads::Model::FileModel.find(2).update(attrs)
+	end
 end

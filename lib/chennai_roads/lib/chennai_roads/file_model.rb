@@ -20,6 +20,13 @@ module ChennaiRoads
         @hash[name.to_s] = value
       end
 
+      def update(attrs)
+        File.open("db/quotes/#{@id}.json", "w") do |f|
+          f.write(attrs.to_json)
+        end
+        self
+      end
+
       def self.find(id)
         FileModel.new("db/quotes/#{id}.json") rescue nil
       end
